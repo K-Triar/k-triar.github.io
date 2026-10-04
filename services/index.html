@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>鉄道運営 | Kトライア瑠璃交通</title>
+  <meta name="description" content="Kトライア瑠璃交通が瑠璃国内で運営する鉄道事業をご案内します。">
+  <link rel="icon" href="../assets/icons/kt_luli_logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap">
+  <link rel="stylesheet" href="../styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../main.js" defer></script>
+</head>
+<body>
+  <a class="skipLink" href="#main">本文へスキップ</a>
+
+  <!-- ===== Header（Top page の縮小ヘッダーを上部に固定。運行状況サマリは出さない） ===== -->
+  <header class="compactHeader compactHeader-page is-visible" id="top">
+    <div class="compactHeader_inner">
+      <a class="compactHeader_logo" href="../">
+        <img src="../assets/icons/kt_luli_logo.svg" alt="Kトライア瑠璃交通 トップページ" width="48" height="46">
+      </a>
+      <nav class="compactHeader_nav" id="globalNav" aria-label="グローバルナビゲーション">
+        <ul class="compactHeader_list">
+          <li class="compactHeader_item"><a class="compactHeader_link" href="../company/">企業</a></li>
+          <li class="compactHeader_item"><a class="compactHeader_link" href="../news/">ニュース</a></li>
+          <li class="compactHeader_item compactHeader_item-rewis">
+            <a class="compactHeader_link compactHeader_link-rewis" href="../rewis/">
+              <img src="../assets/icons/rewis_logo.svg" alt="REWIS 全世界鉄道情報システム" width="110" height="30">
+            </a>
+          </li>
+          <li class="compactHeader_item compactHeader_item-cta"><a class="primaryButton" href="../rewis/transfer/">乗換案内</a></li>
+        </ul>
+      </nav>
+      <div class="compactHeader_tools">
+        <a class="compactHeader_rewis" href="../rewis/"><img src="../assets/icons/rewis_logo.svg" alt="REWIS 全世界鉄道情報システム" width="110" height="30"></a>
+        <a class="primaryButton compactHeader_cta" href="../rewis/transfer/">乗換案内</a>
+        <button class="compactHeader_menuButton" type="button" aria-expanded="false" aria-controls="globalNav">
+          <span class="mainHeader_menuIcon" aria-hidden="true"></span><span class="compactHeader_menuLabel">メニュー</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- ===== ページ見出し ===== -->
+    <section class="section section-brand pageHead" aria-labelledby="pageTitle">
+      <div class="container">
+        <nav aria-label="パンくず">
+          <ol class="breadcrumb">
+            <li class="breadcrumb_item"><a class="breadcrumb_link" href="../">ホーム</a></li>
+            <li class="breadcrumb_item" aria-current="page">鉄道運営</li>
+          </ol>
+        </nav>
+        <div class="grid-oneNineColumn">
+          <p class="contentsTitle_en contentsTitle_en-onBrand" aria-hidden="true">RAILWAY</p>
+          <h1 class="contentsTitle_ja" id="pageTitle">鉄道運営</h1>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 本文（内容は未作成。プレースホルダ） ===== -->
+    <section class="section section-white pageBody">
+      <div class="container">
+        <div class="pageBody_grid">
+          <div class="pageBody_content">
+            <p>Kトライア瑠璃交通は、瑠璃国内の大動脈である「瑠璃本線」をはじめ、都心部を結ぶ地下鉄路線、物流を支える「貿易港線」、都市間を結ぶ「瑠璃新幹線」など、多様な路線網を運営しています。</p>
+            <p>路線の特性や輸送需要に合わせて、TrainCarts による高度な自動進路制御、手軽なトロッコ（バニラ）、高速移動を実現する新幹線（氷ボート）を柔軟に導入し、利用者が駅のボタンからいつでも乗り物を呼び出して移動できるオンデマンドの交通ネットワークを提供しています。</p>
+
+            <h2 class="subSectionTitle">路線のご案内</h2>
+            <table class="contentTable">
+              <thead>
+                <tr>
+                  <th scope="col">路線名</th>
+                  <th scope="col">運行方式</th>
+                  <th scope="col">主な区間・特徴</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">瑠璃本線</th>
+                  <td>TrainCarts</td>
+                  <td>アカシア島から瑠璃中央、瑠順中央方面を結ぶ基幹路線。普通・快速・新快速のほか、主要都市間を結ぶ「特急みかり」などの多彩な系統が運行されています。</td>
+                </tr>
+                <tr>
+                  <th scope="row">地下鉄中央線</th>
+                  <td>TrainCarts</td>
+                  <td>瑠璃中央駅を起点に都心エリアを東西に貫く地下鉄路線。各線との乗り換えや都市内アクセスの要を担っています。</td>
+                </tr>
+                <tr>
+                  <th scope="row">地下鉄交易所線</th>
+                  <td>トロッコ</td>
+                  <td>商業・交易の中心地を結ぶ地下鉄路線。バニラのトロッコを採用し、生活や交易の足として手軽に利用できます。</td>
+                </tr>
+                <tr>
+                  <th scope="row">貿易港線</th>
+                  <td>TrainCarts</td>
+                  <td>瑠順中央駅から臨海部の貿易港方面へ延びる路線。物流輸送および港湾エリアへのアクセスを支えています。</td>
+                </tr>
+                <tr>
+                  <th scope="row">瑠璃新幹線</th>
+                  <td>新幹線</td>
+                  <td>主要都市間を高速で結ぶ基幹高速路線。氷ボート方式を採用し、都市間の長距離移動をスピーディにつなぎます。</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h2 class="subSectionTitle">安全・確実な運行への取り組み</h2>
+            <p>当社の路線では、利用者の呼び出しに応じて列車を運行するオンデマンド方式を採用しています。主力路線における TrainCarts による自動進路制御をはじめ、手軽なトロッコや高速な新幹線（氷ボート）など、路線の役割に合わせた最適な仕組みを導入し、安心で確実な輸送体制を整えています。</p>
+            <ul class="contentList">
+              <li><strong>正確な自動進路誘導</strong>：複雑に入り組む路線網においても、列車の行先や種別に応じた自動進路制御（KT式 経路コード方式）を導入しています。分岐器が自動で切り替わることで、乗客が操作に迷うことなく目的地まで確実にたどり着ける環境を整えています。</li>
+              <li><strong>確実な停車・通過と線路環境の維持</strong>：各駅では自動でのスムーズな停車や所定時間後の発車、列車種別に応じた適切な通過運転を行っています。また、終着駅や各駅の合流部において不要となった空車を線路上から自動で回収・消去する仕組みを整備し、車両の放置や線路のスタックといった運行トラブルを未然に防いでいます。</li>
+              <li><strong>用途に応じた多様な移動手段</strong>：地域輸送を支える「普通」から主要都市間を直行する「快速」「新快速」「特急みかり」まで、目的や距離に合わせた種別を設定しています。さらに、生活拠点を結ぶ手軽なトロッコや、都市間を最高速で結ぶ新幹線を組み合わせ、使いやすい交通網を提供しています。</li>
+              <li><strong>広域ネットワークの形成</strong>：自社線内にとどまらず、近隣の各鉄道事業者と連携しています。相互直通運行やスムーズな対面乗換を整備し、広域にわたるシームレスな移動環境づくりに取り組んでいます。</li>
+            </ul>
+
+            <h2 class="subSectionTitle">ご利用案内</h2>
+            <p><strong>1. 車両の呼び出し</strong><br>各駅ののりばに設置された案内板（ボタン）を押すと、線路上または乗降場に車両が呼び出されます。</p>
+            <p><strong>2. 乗車と出発</strong><br>車両（マインカート・ボート）を右クリックしてご乗車ください。TrainCarts 路線では所定の待機時間を経て自動的に出発します。</p>
+            <p><strong>3. 降車</strong><br>目的地に到着後、スニーク（Shiftキー）を行って安全にお降りください。</p>
+            <p>路線網全体のルート検索や各駅ののりば情報、現在の運行状況は、全世界鉄道情報システム「<a href="../rewis/">REWIS</a>」をご活用ください。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mainFooter">
+    <div class="container">
+      <nav class="mainFooter_nav" aria-label="サイトマップ">
+        <div class="mainFooter_group">
+          <h2 class="mainFooter_heading">企業情報</h2>
+          <ul class="mainFooter_list">
+            <li><a class="mainFooter_link" href="../company/">企業理念</a></li>
+            <li><a class="mainFooter_link" href="../company/#efforts">取り組み</a></li>
+            <li><a class="mainFooter_link" href="../company/#profile">会社概要</a></li>
+          </ul>
+        </div>
+        <div class="mainFooter_group">
+          <h2 class="mainFooter_heading">事業・サービス</h2>
+          <ul class="mainFooter_list">
+            <li><a class="mainFooter_link" href="../services/">鉄道運営</a></li>
+            <li><a class="mainFooter_link" href="../rewis/">REWIS</a></li>
+            <li><a class="mainFooter_link" href="../tc-builder/">TC ビルダー</a></li>
+          </ul>
+        </div>
+        <div class="mainFooter_group">
+          <h2 class="mainFooter_heading">情報</h2>
+          <ul class="mainFooter_list">
+            <li><a class="mainFooter_link" href="../news/">ニュース</a></li>
+            <li><a class="mainFooter_link" href="../rewis/operation/">運行情報（REWIS）</a></li>
+            <li><a class="mainFooter_link" href="../rewis/information/">REWIS のお知らせ</a></li>
+          </ul>
+        </div>
+        <div class="mainFooter_group">
+          <h2 class="mainFooter_heading">サポート</h2>
+          <ul class="mainFooter_list">
+            <li><a class="mainFooter_link" href="../contact/">お問い合わせ</a></li>
+            <li><a class="mainFooter_link" href="../policy/">サイトポリシー</a></li>
+            <li><a class="mainFooter_link" href="../rewis/editor.html">事業者向けページ</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="mainFooter_bottom">
+        <a class="mainFooter_logo" href="#top">
+          <img src="../assets/icons/kt_luli_logo_w.svg" alt="Kトライア瑠璃交通" width="72" height="69" loading="lazy">
+        </a>
+        <p class="mainFooter_copy"><small>&copy; 2026 K-Triar Luli Transport</small></p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

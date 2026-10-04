@@ -5,11 +5,11 @@
 
 /* ---------- Tokens (§3) ---------- */
 :root {
-  /* Brand */
-  --color-brand:        #0065B1;
-  --color-brand-light:  #5D9FD1;
-  --color-brand-tint:   #B3D4FC;
-  --color-brand-bright: #0091E1;
+  /* Brand — REWIS デザインシステムの --color-primary (#0078D7) が基準。
+     #0078D7 は白地で 4.4989:1 と AA (4.5:1) にわずかに届かないため、各チャンネル 1 段だけ暗くしたもの */
+  --color-brand:        #0077D6; /* 白地 4.56:1 / 白文字 4.56:1 */
+  --color-brand-light:  #66ADE6; /* brand 60% + white。青面上の区切り線専用（文字には使わない） */
+  --color-brand-tint:   #B3D5F3; /* brand 30% + white。淡い青の面 */
 
   /* Neutral */
   --color-white:        #FFFFFF;
@@ -18,23 +18,20 @@
   --color-line-strong:  #CCCCCC;
   --color-surface-alt:  #F4F4F4;
 
-  /* Status — 運行情報専用 */
-  --color-status-normal: #009A8D;
-  --color-status-notice: #FF7600;
-  --color-status-stop:   #EA807B;
-  --color-alert-bg:      #FFF7DD;
-  --color-alert-accent:  #FFDE78;
+  /* Status — 運行情報専用。状態名（normal / warning / suspend）と色は REWIS デザインシステムと共通 */
+  --color-status-normal:       #4CAF50; /* 基本色：面・枠線など文字以外の目印用 */
+  --color-status-warning:      #E67E22;
+  --color-status-suspend:      #E60012;
+  --color-status-normal-bg:    #EEF8EF; /* 淡色トーン：状態ごとの面 */
+  --color-status-warning-bg:   #FDF1E6;
+  --color-status-suspend-bg:   #FDECEA;
+  --color-status-normal-text:  #367D39; /* 文字・記号用：-bg 上 4.65:1 / 白地 5.06:1 */
+  --color-status-warning-text: #A85913; /* -bg 上 4.61:1 / 白地 5.12:1 */
+  --color-status-suspend-text: #DA0011; /* -bg 上 4.60:1 / 白地 5.26:1 */
 
   /* Derived (トークンからの合成のみ。直書き HEX なし) */
   --color-ink-sub:       color-mix(in srgb, var(--color-ink) 72%, var(--color-white));   /* 7.57:1 on white */
-  --color-on-brand-sub:  color-mix(in srgb, var(--color-white) 85%, var(--color-brand));  /* 4.9:1 on brand */
   --color-brand-hover:   color-mix(in srgb, var(--color-brand) 92%, var(--color-ink));    /* 明度 -8% */
-  /* 状態記号の線色（白地 4.5:1 以上に暗くしたもの）と、異常時の淡い面 */
-  --color-status-normal-ink: color-mix(in srgb, var(--color-status-normal) 85%, var(--color-ink)); /* 4.53:1 */
-  --color-status-notice-ink: color-mix(in srgb, var(--color-status-notice) 70%, var(--color-ink)); /* 4.73:1 */
-  --color-status-stop-ink:   color-mix(in srgb, var(--color-status-stop) 70%, var(--color-ink));   /* 4.69:1 */
-  --color-status-notice-tint: color-mix(in srgb, var(--color-status-notice) 14%, var(--color-white));
-  --color-status-stop-tint:   color-mix(in srgb, var(--color-status-stop) 14%, var(--color-white));
 
   /* Typography */
   --font-ja: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo, sans-serif;
@@ -129,21 +126,23 @@ main:focus { outline: none; }
   line-height: 1;
   letter-spacing: .05em;
   color: var(--color-brand);
-  padding-top: .9rem;
 }
 .contentsTitle_en-onBrand { color: var(--color-white); }
 .contentsTitle_ja {
-  font-size: clamp(2.6rem, 2.4vw + 1rem, 3.8rem);
+  font-size: var(--title-fs);
   font-weight: 700;
   line-height: 1.4;
   font-feature-settings: "palt";
 }
 .grid-oneNineColumn {
+  --title-fs: clamp(2.6rem, 2.4vw + 1rem, 3.8rem);
   display: grid;
   gap: var(--sp-4);
 }
 @media (min-width: 1280px) {
   .grid-oneNineColumn { grid-template-columns: 1fr 9fr; gap: var(--sp-6); }
+  /* 横並びのときだけ、英字ラベルを日本語見出し1行目の縦中心に揃える（行の高さ = 1.4em、英字 = 1.7rem / line-height 1） */
+  .contentsTitle_en { padding-top: calc((var(--title-fs) * 1.4 - 1.7rem) / 2); }
 }
 
 /* ---------- Header (§4.2 + §4.3) ----------
@@ -191,14 +190,23 @@ main:focus { outline: none; }
   color: var(--color-ink);
   text-decoration: none;
 }
-.mainHeader_logo img { width: 44px; }
-.mainHeader_name { font-size: 1.7rem; font-weight: 700; line-height: 1.3; font-feature-settings: "palt"; }
+.mainHeader_logoFull { display: none; }
+.mainHeader_logoMark { width: auto; height: 32px; }
+.mainHeader_logoText { width: auto; height: 30px; }
+/* 320px 級ではメニューボタン（ラベル付き）と並べるため一回り小さく */
+@media (max-width: 359px) {
+  .mainHeader_logo { gap: var(--sp-2); }
+  .mainHeader_logoMark { height: 28px; }
+  .mainHeader_logoText { height: 24px; }
+}
 
 /* Menu button（1279px 以下・JS 有効時のみ） */
 .mainHeader_menuButton { display: none; }
 .js .mainHeader_menuButton {
   grid-area: menu;
   align-self: center;
+  justify-self: end; /* Tablet では menu 列が「さらに詳しく」と同じ幅になるため右端に寄せる */
+  margin-right: calc(var(--sp-2) * -1); /* ボタン内余白ぶん外へ出し、アイコン右端をコンテンツ右端に揃える */
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
@@ -307,7 +315,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 
 /* 1路線 = 記号 + 路線名 + 状態テキスト（色・形・文字の三重表現） */
 .lineStatus {
-  --st: var(--color-status-normal-ink);
+  --st: var(--color-status-normal-text);
   display: grid;
   justify-items: center;
   align-content: start;
@@ -316,8 +324,8 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   border-radius: var(--radius-s);
   text-align: center;
 }
-.lineStatus-notice { --st: var(--color-status-notice-ink); background: var(--color-status-notice-tint); }
-.lineStatus-stop   { --st: var(--color-status-stop-ink);   background: var(--color-status-stop-tint); }
+.lineStatus-warning { --st: var(--color-status-warning-text); background: var(--color-status-warning-bg); }
+.lineStatus-suspend { --st: var(--color-status-suspend-text); background: var(--color-status-suspend-bg); }
 .lineStatus_icon {
   width: 40px;
   height: 40px;
@@ -330,8 +338,8 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 }
 .lineStatus_name { font-size: 1.4rem; font-weight: 700; line-height: 1.4; }
 .lineStatus_state { font-size: 1.2rem; line-height: 1.5; color: var(--color-ink-sub); }
-.lineStatus-notice .lineStatus_state,
-.lineStatus-stop .lineStatus_state { color: var(--color-ink); font-weight: 700; }
+.lineStatus-warning .lineStatus_state,
+.lineStatus-suspend .lineStatus_state { color: var(--color-ink); font-weight: 700; }
 
 /* さらに詳しく */
 .headerMore {
@@ -386,12 +394,15 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
     grid-template-areas: "brand brand" "nav nav" "status more";
   }
   .serviceStatus { padding-right: var(--sp-6); }
+  /* 見出し行は左の運行状況の見出しと同じ高さに揃える（上詰め） */
   .headerMore {
-    justify-content: center;
+    justify-content: flex-start;
     padding-left: var(--sp-6);
     border-top: 0;
     border-left: 1px solid var(--color-line);
   }
+  .headerMore_head { min-height: 2.4rem; }
+  .headerMore_sub { margin-block: -10px; } /* タップ領域 44px は保ったまま行の高さを揃える */
 }
 
 /* PC: 参考レイアウト（ロゴ縦通し / ナビ / 運行状況 / さらに詳しく） */
@@ -410,14 +421,15 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
     padding: var(--sp-5) var(--sp-6) var(--sp-5) 0;
     border-right: 1px solid var(--color-line);
   }
-  .mainHeader_logo img { width: 112px; }
-  .mainHeader_name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .mainHeader_logoFull { display: block; width: 112px; }
+  .mainHeader_logoMark,
+  .mainHeader_logoText { display: none; }
 
   .js .mainHeader_menuButton { display: none; }
   .js .globalNav,
   html:not(.js) .globalNav { display: block; position: static; padding: 0; overflow: visible; background: none; }
   .globalNav_list,
-  html:not(.js) .globalNav_list { display: flex; align-items: center; height: 100%; gap: 0; padding-left: var(--sp-2); }
+  html:not(.js) .globalNav_list { display: flex; align-items: center; height: 100%; gap: 0; }
   .globalNav_item { display: flex; align-items: center; }
   .globalNav_item + .globalNav_item:not(.globalNav_item-rewis)::before {
     content: "";
@@ -440,11 +452,11 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   .serviceStatus { padding: var(--sp-5); }
   .serviceStatus_list { flex-wrap: nowrap; gap: var(--sp-1); }
   .serviceStatus_list > .lineStatus { flex: 1 1 0; min-width: 0; }
-  /* 見出し行は運行状況の見出しと、ボタン下端は路線タイルの下端と揃える */
+  /* 見出し行は運行状況の見出しと、ボタン下端は路線タイルの下端と揃える。
+     ボタンは縦積み・高さ 48px（§4.8）にして、見出し行 + ボタン2つで路線タイルの高さにちょうど収める */
   .headerMore { justify-content: flex-start; padding: var(--sp-5) 0 var(--sp-5) var(--sp-5); }
-  .headerMore_head { min-height: 2.4rem; }
-  .headerMore_sub { margin-block: -10px; } /* タップ領域 44px は保ったまま行の高さを揃える */
-  .headerMore_actions { margin-top: auto; }
+  .headerMore_actions { grid-template-columns: 1fr; gap: var(--sp-2); margin-top: auto; }
+  .headerMore_actions .primaryButton { min-height: 48px; }
 }
 
 @media (max-width: 767px) {
@@ -539,7 +551,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 
 /* 運行状況サマリ：最も重い状態の記号 + 文字。押すとヘッダーの運行状況へ戻る */
 .compactStatus {
-  --st: var(--color-status-normal-ink);
+  --st: var(--color-status-normal-text);
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
@@ -555,8 +567,8 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   text-decoration: none;
 }
 .compactStatus:hover { border-color: var(--color-brand); }
-.compactStatus-notice { --st: var(--color-status-notice-ink); background: var(--color-status-notice-tint); border-color: transparent; }
-.compactStatus-stop   { --st: var(--color-status-stop-ink);   background: var(--color-status-stop-tint);   border-color: transparent; }
+.compactStatus-warning { --st: var(--color-status-warning-text); background: var(--color-status-warning-bg); border-color: transparent; }
+.compactStatus-suspend { --st: var(--color-status-suspend-text); background: var(--color-status-suspend-bg); border-color: transparent; }
 .compactStatus_icon {
   width: 20px;
   height: 20px;
@@ -628,6 +640,25 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   padding-block: var(--sp-2) var(--sp-5);
 }
 .mainVisual_controls[hidden] { display: none; }
+/* 768px 以上は、キャプションと同じ行の右端にコントロールを置く（JS 有効時のみ。無効時はコントロールが無い） */
+@media (min-width: 768px) {
+  .mainVisual { position: relative; }
+  .js .mainVisual_caption {
+    display: flex;
+    align-items: center;
+    min-height: calc(44px + var(--sp-3) * 2);
+    padding-block: var(--sp-3);
+    padding-right: calc(var(--gutter) + 300px); /* コントロール幅ぶんを避ける */
+  }
+  .js .mainVisual_controls {
+    position: absolute;
+    inset: auto 0 var(--sp-3);
+    margin-inline: auto;
+    padding-block: 0;
+    pointer-events: none;
+  }
+  .js .mainVisual_controls > * { pointer-events: auto; }
+}
 .mainVisual_dots { display: flex; }
 .mainVisual_dot {
   display: grid;
@@ -696,13 +727,19 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 }
 
 /* ---------- Concept (§4.6) ---------- */
-.conceptSection { padding-top: var(--sp-8); }
 .conceptSection_lead { margin-top: var(--sp-5); max-width: 40em; }
 .conceptSection_business { margin-top: var(--sp-8); }
+/* 3枚は 1列 → 3列の2段階（2列にすると最後の1枚が孤立する） */
 .businessCards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  grid-template-columns: 1fr;
   gap: var(--sp-6);
+}
+@media (min-width: 768px) {
+  .businessCards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-5); }
+}
+@media (min-width: 1280px) {
+  .businessCards { gap: var(--sp-6); }
 }
 .businessCard { display: flex; flex-direction: column; }
 .businessCard_visual {
@@ -713,7 +750,8 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   background: var(--color-surface-alt);
   border-radius: var(--radius-l);
 }
-.businessCard_visual img { max-height: 120px; width: auto; }
+/* 縦長・正方形・横長のロゴで視覚的な大きさがそろうよう、高さと幅の両方に上限をかける */
+.businessCard_visual img { width: auto; height: auto; max-width: min(100%, 240px); max-height: 96px; }
 .businessCard_label {
   margin-top: var(--sp-5);
   font-family: var(--font-en);
@@ -729,7 +767,8 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   line-height: 1.4;
   font-feature-settings: "palt";
 }
-.businessCard_text { margin-top: var(--sp-3); }
+.businessCard_text { margin-top: var(--sp-3); flex: 1 1 auto; } /* 本文の行数が違っても「詳しく見る」を下端でそろえる */
+.businessCard_link { margin-top: var(--sp-3); align-self: flex-start; }
 
 /* ---------- News (§4.7) ---------- */
 .newsSection_head {
@@ -841,18 +880,25 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 /* ---------- Efforts (§6-6) ---------- */
 .effortCards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  grid-template-columns: 1fr;
   gap: var(--sp-5);
   margin-top: var(--sp-8);
 }
+@media (min-width: 768px) {
+  .effortCards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 .effortCard {
-  padding: var(--sp-6);
+  padding: var(--sp-5);
   background: var(--color-surface-alt);
   border-radius: var(--radius-l);
 }
+@media (min-width: 1280px) {
+  .effortCard { padding: var(--sp-6); }
+}
 .effortCard_number {
   font-family: var(--font-en);
-  font-size: 1.7rem;
+  font-size: 2.4rem; /* 大きい文字（≥18.66px Bold）扱いにして、surface-alt 上の brand (4.14:1) でも AA を満たす */
+  line-height: 1.2;
   font-weight: 700;
   letter-spacing: .05em;
   color: var(--color-brand);
@@ -885,7 +931,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  color: var(--color-on-brand-sub);
+  color: var(--color-white);
   text-decoration: none;
   transition: color var(--dur) var(--ease-in);
 }
@@ -904,6 +950,157 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 .mainFooter_logo img { width: 72px; }
 .mainFooter_copy { font-size: 1.3rem; }
 .mainFooter_copy small { font-size: inherit; }
+
+/* ---------- Sub pages（下層ページ） ----------
+   固定ヘッダー: Top page の縮小ヘッダー（.compactHeader）を静的マークアップで常時表示する。運行状況サマリは出さない。
+   ページ構成: [固定ヘッダー] → [ページ見出し: 青面] → [本文: 白面] → [フッター: 青面]（白↔青の交互 + 下端角丸の「重ね」を Top page と共通に） */
+.compactHeader-page { position: sticky; }
+
+/* 狭い画面（〜1279px）はメニューボタンで開くドロワー。JS 無効時はナビを2段目に常時表示する */
+.compactHeader_item-rewis,
+.compactHeader_item-cta { display: none; }
+.compactHeader_link-rewis img { height: 28px; width: auto; }
+@media (max-width: 1279px) {
+  .compactHeader-page .compactHeader_item-rewis { display: flex; }
+  .js .compactHeader-page .compactHeader_nav {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    overflow-y: auto;
+    padding: calc(56px + var(--sp-4)) var(--gutter) var(--sp-8);
+    background: var(--color-white);
+  }
+  .js .compactHeader-page .compactHeader_nav.is-open { display: block; }
+  .js .compactHeader-page .compactHeader_menuButton[aria-expanded="true"] {
+    position: fixed;
+    top: calc((56px - 44px) / 2);
+    right: var(--gutter);
+    z-index: 61;
+  }
+  .compactHeader-page .compactHeader_list { display: block; }
+  .compactHeader-page .compactHeader_item + .compactHeader_item::before { display: none; }
+  .compactHeader-page .compactHeader_link {
+    flex: 1 1 auto;
+    min-height: 56px;
+    padding: 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .compactHeader-page .compactHeader_link:hover { border-bottom-color: var(--color-line); }
+  .compactHeader-page .compactHeader_link[aria-current="page"] { border-bottom-color: var(--color-line); padding-left: var(--sp-3); box-shadow: inset 4px 0 0 var(--color-brand); }
+  .compactHeader-page .compactHeader_item-rewis { margin-top: var(--sp-5); }
+  .compactHeader-page .compactHeader_link-rewis { border-bottom: 0; }
+
+  html:not(.js) .compactHeader-page .compactHeader_inner { flex-wrap: wrap; padding-block: var(--sp-1); }
+  html:not(.js) .compactHeader-page .compactHeader_nav { display: block; order: 5; flex: 1 0 100%; }
+  html:not(.js) .compactHeader-page .compactHeader_list { display: flex; flex-wrap: wrap; gap: 0 var(--sp-5); }
+  html:not(.js) .compactHeader-page .compactHeader_link { min-height: 44px; border-bottom: 0; }
+  html:not(.js) .compactHeader-page .compactHeader_item-rewis { margin-top: 0; }
+  html:not(.js) .compactHeader-page .compactHeader_menuButton { display: none; }
+}
+@media (max-width: 767px) {
+  .compactHeader-page .compactHeader_item-cta { display: flex; margin-top: var(--sp-5); }
+  .compactHeader-page .compactHeader_item-cta .primaryButton { width: 100%; }
+  html:not(.js) .compactHeader-page .compactHeader_item-cta { margin-top: 0; }
+}
+/* 現在のページ。PC は下線（色だけに頼らない）、ドロワーは左の帯 */
+.compactHeader_link[aria-current="page"] { color: var(--color-brand); border-bottom-color: var(--color-brand); }
+
+/* ページ見出し（青面。Top page の News 見出しと同じ二層構造） */
+.pageHead { z-index: 4; padding-block: var(--sp-7) var(--sp-8); }
+.pageBody { z-index: 3; }
+.section.pageHead + .section { padding-top: calc(var(--sp-8) + var(--radius-xl)); }
+@media (min-width: 1280px) {
+  .pageHead { padding-block: var(--sp-8) var(--sp-9); }
+  .section.pageHead + .section { padding-top: calc(var(--sp-9) + var(--radius-xl)); }
+}
+@media (max-width: 767px) {
+  .pageHead { padding-block: var(--sp-6) var(--sp-7); }
+  .section.pageHead + .section { padding-top: calc(var(--sp-7) + 8vw); }
+}
+.pageHead .grid-oneNineColumn { margin-top: var(--sp-5); }
+
+.breadcrumb { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; align-items: center; font-size: 1.3rem; line-height: 1.5; }
+.breadcrumb_item { display: flex; align-items: center; }
+.breadcrumb_item + .breadcrumb_item::before {
+  content: "/" / "";
+  margin-inline: var(--sp-2);
+  color: var(--color-brand-tint);
+}
+.breadcrumb_link { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-white); }
+.breadcrumb_item[aria-current="page"] { font-weight: 700; }
+
+/* 本文（現在はプレースホルダ）。見出しと同じ 1:9 の右列に置く */
+.pageBody_grid { display: grid; gap: var(--sp-6); }
+.pageBody_content { min-width: 0; max-width: 48em; }
+.pageBody_content > * + * { margin-top: var(--sp-4); }
+@media (min-width: 1280px) {
+  .pageBody_grid { grid-template-columns: 1fr 9fr; }
+  .pageBody_content { grid-column: 2; }
+}
+/* 本文内の区分（company/ のように1ページに複数の見出しを置くとき） */
+.pageBlock + .pageBlock { margin-top: var(--sp-8); padding-top: var(--sp-8); border-top: 1px solid var(--color-line); }
+.pageBlock .grid-oneNineColumn { --title-fs: clamp(2.2rem, 1.6vw + 1rem, 3rem); }
+.pageBlock_body { min-width: 0; max-width: 48em; margin-top: var(--sp-5); }
+.pageBlock_body > * + * { margin-top: var(--sp-4); }
+
+/* 下層ページの本文要素（汎用） */
+.subSectionTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-top: var(--sp-6);
+  padding-bottom: var(--sp-2);
+  border-bottom: 2px solid var(--color-brand);
+}
+.pageBlock_body > .subSectionTitle:first-child,
+.pageBody_content > .subSectionTitle:first-child { margin-top: 0; }
+
+.effortDetail + .effortDetail { margin-top: var(--sp-5); }
+.effortDetail_title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-brand);
+  margin-bottom: var(--sp-2);
+}
+
+.contentTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.5rem;
+  line-height: 1.6;
+}
+.contentTable th,
+.contentTable td {
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--color-line);
+  text-align: left;
+  vertical-align: top;
+}
+.contentTable th {
+  width: 28%;
+  font-weight: 700;
+  color: var(--color-ink);
+  background: var(--color-surface-alt);
+  white-space: nowrap;
+}
+@media (max-width: 767px) {
+  .contentTable th,
+  .contentTable td { display: block; width: 100%; }
+  .contentTable th { padding-bottom: var(--sp-1); background: none; }
+  .contentTable td { padding-top: 0; }
+}
+
+.contentList { margin-top: var(--sp-2); padding-left: 1.5em; list-style: disc; }
+.contentList > li + li { margin-top: var(--sp-2); }
+
+/* ニュース一覧（news/） */
+.newsArticle { padding-block: var(--sp-5); border-bottom: 1px solid var(--color-line); }
+.newsArticle:first-child { padding-top: 0; }
+.newsArticle_meta { display: flex; align-items: center; gap: var(--sp-4); }
+.newsArticle_title { font-size: 1.7rem; font-weight: 700; line-height: 1.4; margin-top: var(--sp-2); }
+.newsArticle_lead { margin-top: var(--sp-2); font-size: 1.5rem; line-height: 1.7; }
 
 /* ---------- Reduced motion (§3.6) ---------- */
 @media (prefers-reduced-motion: reduce) {

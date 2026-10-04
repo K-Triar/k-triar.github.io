@@ -1,12 +1,11 @@
-/* Kトライア瑠璃交通 — Top page
-   JS なしでも全情報が読める前提の、最小限の拡張のみ。 */
+/* Kトライア瑠璃交通 — 全ページ共通（ヘッダー固定・メニュー開閉）
+   JS なしでも全情報が読める前提の、最小限の拡張のみ。Top page 専用の処理は home.js。 */
 (() => {
   "use strict";
 
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
   const header = document.querySelector(".mainHeader");
-  const menuButton = document.querySelector(".mainHeader_menuButton");
+  // Top page は本来のヘッダーのボタン、下層ページは固定ヘッダー（静的マークアップ）のボタンを主とする
+  const menuButton = document.querySelector(".mainHeader_menuButton") || document.querySelector(".compactHeader_menuButton");
   const nav = document.getElementById("globalNav");
 
   /* ---------- Compact header（スクロール時の固定ヘッダー） ----------
@@ -66,10 +65,11 @@
     // 運行状況サマリ：最も重い状態の記号で代表し、異常のある路線数を文字で示す
     const lines = [...header.querySelectorAll(".lineStatus")];
     const count = (state) => lines.filter((line) => line.classList.contains(`lineStatus-${state}`)).length;
-    const stop = count("stop");
-    const notice = count("notice");
-    const worst = stop ? "stop" : notice ? "notice" : "normal";
-    const parts = [stop && `運転見合わせ ${stop}路線`, notice && `遅れ ${notice}路線`].filter(Boolean);
+    // 状態名・表記は REWIS（src/pages/index.js の STATE_LABELS）と共通
+    const suspend = count("suspend");
+    const warning = count("warning");
+    const worst = suspend ? "suspend" : warning ? "warning" : "normal";
+    const parts = [suspend && `運転見合わせ ${suspend}路線`, warning && `運行情報あり ${warning}路線`].filter(Boolean);
     const status = bar.querySelector(".compactStatus");
     status.classList.add(`compactStatus-${worst}`);
     status.querySelector("use").setAttribute("href", `#st-${worst}`);
@@ -90,9 +90,10 @@
   }
 
   /* ---------- Global nav drawer (§4.2) ----------
-     開閉ボタンは本来のヘッダーと固定ヘッダーの2つ。開いている間は本来のボタンが「閉じる」として最前面に出る。 */
+     Top page の開閉ボタンは本来のヘッダーと固定ヘッダーの2つ。開いている間は本来のボタンが「閉じる」として最前面に出る。
+     下層ページは固定ヘッダーのボタン1つで、開いている間はそのボタンが最前面に出る。 */
   if (menuButton && nav) {
-    const label = menuButton.querySelector(".mainHeader_menuLabel");
+    const label = menuButton.querySelector(".mainHeader_menuLabel, .compactHeader_menuLabel");
     let opener = menuButton;
 
     const setOpen = (open) => {
@@ -124,89 +125,5 @@
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && nav.classList.contains("is-open")) close();
     });
-  }
-
-  /* ---------- Main visual slider (§4.5) ---------- */
-  const mainVisual = document.querySelector(".mainVisual");
-
-  if (mainVisual) {
-    const slides = [...mainVisual.querySelectorAll(".mainVisual_slide")];
-    const dots = [...mainVisual.querySelectorAll(".mainVisual_dot")];
-    const controls = mainVisual.querySelector(".mainVisual_controls");
-    const toggle = mainVisual.querySelector(".mainVisual_toggle");
-    const toggleLabel = toggle.querySelector(".mainVisual_toggleLabel");
-    const INTERVAL = 6000;
-    let current = 0;
-    let timer = null;
-    let userPaused = reducedMotion.matches; // 視差・自動再生を抑制する設定では停止状態で開始
-    let hoverPaused = false;
-
-    const show = (index) => {
-      current = (index + slides.length) % slides.length;
-      slides.forEach((slide, i) => slide.classList.toggle("is-active", i === current));
-      dots.forEach((dot, i) => {
-        if (i === current) dot.setAttribute("aria-current", "true");
-        else dot.removeAttribute("aria-current");
-      });
-    };
-
-    const sync = () => {
-      clearInterval(timer);
-      timer = null;
-      if (!userPaused && !hoverPaused) timer = setInterval(() => show(current + 1), INTERVAL);
-      toggle.setAttribute("aria-pressed", String(userPaused));
-      toggleLabel.textContent = userPaused ? "再生" : "一時停止";
-    };
-
-    controls.hidden = false;
-    dots.forEach((dot, i) => dot.addEventListener("click", () => show(i)));
-    toggle.addEventListener("click", () => {
-      userPaused = !userPaused;
-      sync();
-    });
-
-    // 操作中・注視中は送らない
-    mainVisual.addEventListener("mouseenter", () => { hoverPaused = true; sync(); });
-    mainVisual.addEventListener("mouseleave", () => { hoverPaused = false; sync(); });
-    mainVisual.addEventListener("focusin", () => { hoverPaused = true; sync(); });
-    mainVisual.addEventListener("focusout", (e) => {
-      if (!mainVisual.contains(e.relatedTarget)) { hoverPaused = false; sync(); }
-    });
-    reducedMotion.addEventListener("change", (e) => {
-      if (e.matches) { userPaused = true; sync(); }
-    });
-
-    show(0);
-    sync();
-  }
-
-  /* ---------- News tabs (§4.7) ---------- */
-  const tablist = document.querySelector(".newsTabs");
-
-  if (tablist) {
-    const tabs = [...tablist.querySelectorAll('[role="tab"]')];
-    const panels = tabs.map((tab) => document.getElementById(tab.getAttribute("aria-controls")));
-
-    const select = (index, focus) => {
-      tabs.forEach((tab, i) => {
-        const selected = i === index;
-        tab.setAttribute("aria-selected", String(selected));
-        tab.tabIndex = selected ? 0 : -1;
-        panels[i].hidden = !selected;
-      });
-      if (focus) tabs[index].focus();
-    };
-
-    tablist.hidden = false;
-    tabs.forEach((tab, i) => {
-      tab.addEventListener("click", () => select(i, false));
-      tab.addEventListener("keydown", (e) => {
-        const keys = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 };
-        if (!(e.key in keys)) return;
-        e.preventDefault();
-        select((keys[e.key] + tabs.length) % tabs.length, true);
-      });
-    });
-    select(0, false);
   }
 })();

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>お問い合わせ | Kトライア瑠璃交通</title>
+  <meta name="description" content="Kトライア瑠璃交通へのお問い合わせ方法をご案内します。">
+  <link rel="icon" href="../assets/icons/kt_luli_logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap">
+  <link rel="stylesheet" href="../styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../main.js" defer></script>
+</head>
+<body>
+  <a class="skipLink" href="#main">本文へスキップ</a>
+
+  <!-- ===== Header（Top page の縮小ヘッダーを上部に固定。運行状況サマリは出さない） ===== -->
+  <header class="compactHeader compactHeader-page is-visible" id="top">
+    <div class="compactHeader_inner">
+      <a class="compactHeader_logo" href="../">
+        <img src="../assets/icons/kt_luli_logo.svg" alt="Kトライア瑠璃交通 トップページ" width="48" height="46">
+      </a>
+      <nav class="compactHeader_nav" id="globalNav" aria-label="グローバルナビゲーション">
+        <ul class="compactHeader_list">
+          <li class="compactHeader_item"><a class="compactHeader_link" href="../company/">企業</a></li>
+          <li class="compactHeader_item"><a class="compactHeader_link" href="../news/">ニュース</a></li>
+          <li class="compactHeader_item compactHeader_item-rewis">
+            <a class="compactHeader_link compactHeader_link-rewis" href="../rewis/">
+              <img src="../assets/icons/rewis_logo.svg" alt="REWIS 全世界鉄道情報システム" width="110" height="30">
+            </a>
+          </li>
+          <li class="compactHeader_item compactHeader_item-cta"><a class="primaryButton" href="../rewis/transfer/">乗換案内</a></li>
+        </ul>
+      </nav>
+      <div class="compactHeader_tools">
+        <a class="compactHeader_rewis" href="../rewis/"><img src="../assets/icons/rewis_logo.svg" alt="REWIS 全世界鉄道情報システム" width="110" height="30"></a>
+        <a class="primaryButton compactHeader_cta" href="../rewis/transfer/">乗換案内</a>
+        <button class="compactHeader_menuButton" type="button" aria-expanded="false" aria-controls="globalNav">
+          <span class="mainHeader_menuIcon" aria-hidden="true"></span><span class="compactHeader_menuLabel">メニュー</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- ===== ページ見出し ===== -->
+    <section class="section section-brand pageHead" aria-labelledby="pageTitle">
+      <div class="container">
+        <nav aria-label="パンくず">
+          <ol class="breadcrumb">
+            <li class="breadcrumb_item"><a class="breadcrumb_link" href="../">ホーム</a></li>
+            <li class="breadcrumb_item" aria-current="page">お問い合わせ</li>
+          </ol>
+        </nav>
+        <div class="grid-oneNineColumn">
+          <p class="contentsTitle_en contentsTitle_en-onBrand" aria-hidden="true">CONTACT</p>
+          <h1 class="contentsTitle_ja" id="pageTitle">お問い合わせ</h1>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 本文（内容は未作成。プレースホルダ） ===== -->
+    <section class="section section-white pageBody">
+      <div class="container">
+        <div class="pageBody_grid">
+          <div class="pageBody_content">
+            <p>Kトライア瑠璃交通および提供サービス（REWIS、TCビルダー）に関するお問い合わせ、ご意見、不具合報告は、以下の窓口にて受け付けています。</p>
+            <p>お問い合わせの内容に応じて、適切な窓口をご利用ください。</p>
+
+            <h2 class="subSectionTitle">主な窓口</h2>
+            <table class="contentTable">
+              <thead>
+                <tr>
+                  <th scope="col">窓口</th>
+                  <th scope="col">主な受付内容</th>
+                  <th scope="col">リンク・連絡方法</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">DSクラフト公式 Discord</th>
+                  <td>ゲーム内の運行・設備に関するご連絡、ご意見、REWISへの新規路線登録申請</td>
+                  <td>サーバー内「Kトライア瑠璃交通」関連チャンネル、または担当者へのダイレクトメッセージ</td>
+                </tr>
+                <tr>
+                  <th scope="row">GitHub Issues</th>
+                  <td>Webシステムやツールの不具合報告、機能要望、データ修正依頼</td>
+                  <td>各リポジトリの Issues（下記参照）</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h2 class="subSectionTitle">GitHub でのお問い合わせ先（リポジトリ別）</h2>
+            <ul class="contentList">
+              <li><strong>公式サイトに関する問題（表示崩れ、誤字など）</strong><br><a href="https://github.com/K-Triar/k-triar.github.io/issues" rel="noopener">K-Triar/k-triar.github.io Issues</a></li>
+              <li><strong>REWIS に関する問題（乗換案内、路線図、エディタ、データ誤りなど）</strong><br><a href="https://github.com/K-Triar/rewis/issues" rel="noopener">K-Triar/rewis Issues</a></li>
+              <li><strong>KT式 TCビルダーに関する問題（計算ロジック、看板出力など）</strong><br><a href="https://github.com/K-Triar/tc-builder/issues" rel="noopener">K-Triar/tc-builder Issues</a></li>
+            </ul>
+
+            <h2 class="subSectionTitle">内容別のご案内</h2>
+            <p><strong>鉄道事業者様向け（REWIS への路線データ登録・更新）</strong><br>DSクラフト内で鉄道を運営されている事業者様で、REWISへの路線データ新規掲載や事業者向けエディタ用アカウントの発行をご希望の場合は、DiscordにてKトライア瑠璃交通担当者までお申し出ください。</p>
+            <p><strong>ゲーム内の運行・設備に関する異常</strong><br>線路・駅設備の破損や列車のスタックなど、ゲーム内の運行に支障が生じている場合は、Discordまたはゲーム内チャットにて速やかにお知らせください。</p>
+
+            <h2 class="subSectionTitle">ご注意事項</h2>
+            <ul class="contentList">
+              <li>回答には日数をいただく場合があります。</li>
+              <li>DSクラフトのサーバールールおよびコミュニティ規約に反する内容や、個別のゲーム内トラブル（規約違反行為の通報等）については、サーバー運営チームの所定の窓口へご相談ください。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mainFooter">
+    <div class="container">
+      <nav class="mainFooter_nav" aria-label="サイトマップ">
+        <div class="mainFooter_group">
+          <h2 class="mainFooter_heading">企業情報</h2>
+          <ul class="mainFooter_list">
+            <li><a class="mainFooter_link" href="../company/">企業理念</a></li>
+            <li><a class="mainFooter_link" href="../company/#efforts">取り組み</a></li>
+            <li><a class="mainFooter_link" href="../company/#profile">会社概要</a></li>
+          </ul>
+        </div>
+        <div class="mainFooter_group">
+          <h2 class="mainFooter_heading">事業・サービス</h2>
+          <ul class="mainFooter_list">
+            <li><a class="mainFooter_link" href="../services/">鉄道運営</a></li>
+            <li><a class="mainFooter_link" href="../rewis/">REWIS</a></li>
+            <li><a class="mainFooter_link" href="../tc-builder/">TC ビルダー</a></li>
+          </ul>
+        </div>
+        <div class="mainFooter_group">
+          <h2 class="mainFooter_heading">情報</h2>
+          <ul class="mainFooter_list">
+            <li><a class="mainFooter_link" href="../news/">ニュース</a></li>
+            <li><a class="mainFooter_link" href="../rewis/operation/">運行情報（REWIS）</a></li>
+            <li><a class="mainFooter_link" href="../rewis/information/">REWIS のお知らせ</a></li>
+          </ul>
+        </div>
+        <div class="mainFooter_group">
+          <h2 class="mainFooter_heading">サポート</h2>
+          <ul class="mainFooter_list">
+            <li><a class="mainFooter_link" href="../contact/">お問い合わせ</a></li>
+            <li><a class="mainFooter_link" href="../policy/">サイトポリシー</a></li>
+            <li><a class="mainFooter_link" href="../rewis/editor.html">事業者向けページ</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="mainFooter_bottom">
+        <a class="mainFooter_logo" href="#top">
+          <img src="../assets/icons/kt_luli_logo_w.svg" alt="Kトライア瑠璃交通" width="72" height="69" loading="lazy">
+        </a>
+        <p class="mainFooter_copy"><small>&copy; 2026 K-Triar Luli Transport</small></p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

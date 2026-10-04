@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="styles.css">
   <script>document.documentElement.classList.add("js");</script>
   <script src="main.js" defer></script>
+  <script src="home.js" defer></script>
 </head>
 <body>
   <a class="skipLink" href="#main">本文へスキップ</a>
@@ -20,15 +21,17 @@
   <header class="mainHeader" id="top">
     <svg class="u-visuallyHidden" aria-hidden="true" focusable="false">
       <symbol id="st-normal" viewBox="0 0 40 40"><circle cx="20" cy="20" r="13.5"/></symbol>
-      <symbol id="st-notice" viewBox="0 0 40 40"><path d="M20 6.5 34 31.5H6z"/></symbol>
-      <symbol id="st-stop" viewBox="0 0 40 40"><path d="M9 9l22 22M31 9 9 31"/></symbol>
+      <symbol id="st-warning" viewBox="0 0 40 40"><path d="M20 6.5 34 31.5H6z"/></symbol>
+      <symbol id="st-suspend" viewBox="0 0 40 40"><path d="M9 9l22 22M31 9 9 31"/></symbol>
     </svg>
 
     <div class="mainHeader_frame">
       <h1 class="mainHeader_brand">
         <a class="mainHeader_logo" href="./">
-          <img src="assets/icons/kt_luli_logo.svg" alt="" width="112" height="108">
-          <span class="mainHeader_name">Kトライア瑠璃交通</span>
+          <!-- PC はロゴ全体、1279px 以下はシンボルマーク + ロゴタイプ（表示はどちらか一方のみ） -->
+          <img class="mainHeader_logoFull" src="assets/icons/kt_luli_logo.svg" alt="Kトライア瑠璃交通" width="112" height="108">
+          <img class="mainHeader_logoMark" src="assets/icons/kt_luli_logo_s.svg" alt="" width="48" height="32">
+          <img class="mainHeader_logoText" src="assets/icons/kt_luli_logo_text.svg" alt="Kトライア瑠璃交通" width="124" height="30">
         </a>
       </h1>
 
@@ -37,14 +40,10 @@
         <span class="mainHeader_menuLabel">メニュー</span>
       </button>
 
-      <!-- 路線図・駅情報・おでかけ情報・REWIS のリンク先は未作成です -->
       <nav class="globalNav" id="globalNav" aria-label="グローバルナビゲーション">
         <ul class="globalNav_list">
-          <li class="globalNav_item"><a class="globalNav_link" href="routemap/">路線図</a></li>
-          <li class="globalNav_item"><a class="globalNav_link" href="stations/">駅情報</a></li>
-          <li class="globalNav_item"><a class="globalNav_link" href="travel/">おでかけ情報</a></li>
-          <li class="globalNav_item"><a class="globalNav_link" href="#concept">企業</a></li>
-          <li class="globalNav_item"><a class="globalNav_link" href="#news">ニュース</a></li>
+          <li class="globalNav_item"><a class="globalNav_link" href="company/">企業</a></li>
+          <li class="globalNav_item"><a class="globalNav_link" href="news/">ニュース</a></li>
           <li class="globalNav_item globalNav_item-rewis">
             <a class="globalNav_link globalNav_link-rewis" href="rewis/">
               <img src="assets/icons/rewis_logo.svg" alt="REWIS 全世界鉄道情報システム" width="110" height="30">
@@ -53,14 +52,14 @@
         </ul>
       </nav>
 
-      <!-- 路線名・状態はサンプルです。状態は lineStatus-normal / -notice / -stop と
-           <use href="#st-…"> と状態テキストの3点を揃えて差し替えてください。 -->
+      <!-- 路線名・状態はサンプルです。状態名は REWIS と共通（normal 平常運転 / warning 運行情報あり / suspend 運転見合わせ）。
+           lineStatus-<状態>・<use href="#st-<状態>">・状態テキストの3点を揃えて差し替えてください。 -->
       <section class="serviceStatus" id="status" aria-labelledby="statusTitle">
         <div class="serviceStatus_head">
-          <h2 class="serviceStatus_title" id="statusTitle">Kトライア線 運行状況</h2>
+          <h2 class="serviceStatus_title" id="statusTitle">KT線 運行状況</h2>
           <p class="serviceStatus_powered">
             <span>Powered by</span>
-            <img src="assets/icons/rewis_logo.svg" alt="REWIS" width="62" height="17">
+            <img src="assets/icons/rewis_logo_s.svg" alt="REWIS" width="62" height="17">
           </p>
           <p class="serviceStatus_time"><time datetime="2026-10-04T16:00">10月4日 16:00</time> 現在</p>
         </div>
@@ -75,8 +74,8 @@
             <span class="lineStatus_name">地下鉄中央線</span>
             <span class="lineStatus_state">平常運転</span>
           </li>
-          <li class="lineStatus lineStatus-stop">
-            <svg class="lineStatus_icon" aria-hidden="true"><use href="#st-stop"/></svg>
+          <li class="lineStatus lineStatus-suspend">
+            <svg class="lineStatus_icon" aria-hidden="true"><use href="#st-suspend"/></svg>
             <span class="lineStatus_name">地下鉄交易所線</span>
             <span class="lineStatus_state">運転見合わせ</span>
           </li>
@@ -93,15 +92,14 @@
         </ul>
       </section>
 
-      <!-- 乗換案内・運行状況詳細・事業者向けページのリンク先は未作成です -->
       <section class="headerMore" aria-labelledby="moreTitle">
         <div class="headerMore_head">
           <h2 class="headerMore_title" id="moreTitle">さらに詳しく</h2>
-          <a class="headerMore_sub" href="business/">事業者向けページ<svg class="arrowLink_icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></a>
+          <a class="headerMore_sub" href="rewis/editor.html">事業者向けページ<svg class="arrowLink_icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></a>
         </div>
         <div class="headerMore_actions">
-          <a class="primaryButton" href="transfer/">乗換案内</a>
-          <a class="primaryButton" href="status/">運行状況の詳細</a>
+          <a class="primaryButton" href="rewis/transfer/">乗換案内</a>
+          <a class="primaryButton" href="rewis/operation/">運行状況の詳細</a>
         </div>
       </section>
     </div>
@@ -171,6 +169,7 @@
               <p class="businessCard_label" aria-hidden="true">RAILWAY</p>
               <h4 class="businessCard_title">瑠璃国内の鉄道運営</h4>
               <p class="businessCard_text">瑠璃国内の路線を運営し、毎日の移動を安全かつ正確に支えます。</p>
+              <a class="arrowLink businessCard_link" href="services/">詳しく見る<svg class="arrowLink_icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></a>
             </li>
             <li class="businessCard">
               <div class="businessCard_visual">
@@ -179,6 +178,7 @@
               <p class="businessCard_label" aria-hidden="true">REWIS</p>
               <h4 class="businessCard_title">全世界鉄道情報システム（REWIS）の運営</h4>
               <p class="businessCard_text">世界の路線・駅・運行の情報を集め、だれもが調べられる形で公開します。</p>
+              <a class="arrowLink businessCard_link" href="rewis/">詳しく見る<svg class="arrowLink_icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></a>
             </li>
             <li class="businessCard">
               <div class="businessCard_visual">
@@ -187,6 +187,7 @@
               <p class="businessCard_label" aria-hidden="true">STANDARD</p>
               <h4 class="businessCard_title">TrainCarts 運行方式の開発・規格策定</h4>
               <p class="businessCard_text">TrainCarts による運行方式を開発し、ほかの事業者も使える共通規格にまとめます。</p>
+              <a class="arrowLink businessCard_link" href="tc-builder/">詳しく見る<svg class="arrowLink_icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></a>
             </li>
           </ul>
         </div>
@@ -294,27 +295,38 @@
   <!-- ===== 7. Footer ===== -->
   <footer class="mainFooter">
     <div class="container">
+      <!-- rewis/・tc-builder/ は別リポジトリの公開ページです -->
       <nav class="mainFooter_nav" aria-label="サイトマップ">
         <div class="mainFooter_group">
           <h2 class="mainFooter_heading">企業情報</h2>
           <ul class="mainFooter_list">
-            <li><a class="mainFooter_link" href="#concept">企業理念</a></li>
-            <li><a class="mainFooter_link" href="#efforts">取り組み</a></li>
+            <li><a class="mainFooter_link" href="company/">企業理念</a></li>
+            <li><a class="mainFooter_link" href="company/#efforts">取り組み</a></li>
+            <li><a class="mainFooter_link" href="company/#profile">会社概要</a></li>
           </ul>
         </div>
         <div class="mainFooter_group">
-          <h2 class="mainFooter_heading">事業</h2>
+          <h2 class="mainFooter_heading">事業・サービス</h2>
           <ul class="mainFooter_list">
-            <li><a class="mainFooter_link" href="#business">鉄道運営</a></li>
-            <li><a class="mainFooter_link" href="#business">REWIS</a></li>
-            <li><a class="mainFooter_link" href="#business">TrainCarts 運行方式</a></li>
+            <li><a class="mainFooter_link" href="services/">鉄道運営</a></li>
+            <li><a class="mainFooter_link" href="rewis/">REWIS</a></li>
+            <li><a class="mainFooter_link" href="tc-builder/">TC ビルダー</a></li>
           </ul>
         </div>
         <div class="mainFooter_group">
           <h2 class="mainFooter_heading">情報</h2>
           <ul class="mainFooter_list">
-            <li><a class="mainFooter_link" href="#status">列車運行状況</a></li>
-            <li><a class="mainFooter_link" href="#news">ニュース</a></li>
+            <li><a class="mainFooter_link" href="news/">ニュース</a></li>
+            <li><a class="mainFooter_link" href="rewis/operation/">運行情報（REWIS）</a></li>
+            <li><a class="mainFooter_link" href="rewis/information/">REWIS のお知らせ</a></li>
+          </ul>
+        </div>
+        <div class="mainFooter_group">
+          <h2 class="mainFooter_heading">サポート</h2>
+          <ul class="mainFooter_list">
+            <li><a class="mainFooter_link" href="contact/">お問い合わせ</a></li>
+            <li><a class="mainFooter_link" href="policy/">サイトポリシー</a></li>
+            <li><a class="mainFooter_link" href="rewis/editor.html">事業者向けページ</a></li>
           </ul>
         </div>
       </nav>
