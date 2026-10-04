@@ -191,13 +191,15 @@ main:focus { outline: none; }
   text-decoration: none;
 }
 .mainHeader_logoFull { display: none; }
+.mainHeader_logoMark,
+.mainHeader_logoText { display: block; align-self: center; }
 .mainHeader_logoMark { width: auto; height: 32px; }
-.mainHeader_logoText { width: auto; height: 30px; }
+.mainHeader_logoText { width: auto; height: 30px; transform: translateY(1.5px); } /* 「p」の下端(高さの約5.4%)を除いた字面をマークの中央に合わせる */
 /* 320px 級ではメニューボタン（ラベル付き）と並べるため一回り小さく */
 @media (max-width: 359px) {
   .mainHeader_logo { gap: var(--sp-2); }
   .mainHeader_logoMark { height: 28px; }
-  .mainHeader_logoText { height: 24px; }
+  .mainHeader_logoText { height: 24px; transform: translateY(.3px); }
 }
 
 /* Menu button（1279px 以下・JS 有効時のみ） */
@@ -273,6 +275,10 @@ main:focus { outline: none; }
   z-index: 61;
 }
 .globalNav_item-rewis { margin-top: var(--sp-5); }
+/* 事業者向けページ：SP では「さらに詳しく」から畳まれるため、ドロワー内に置く */
+.globalNav_item.globalNav_item-sub { display: none; }
+.globalNav_item-sub .globalNav_link { min-height: 48px; border-bottom: 0; font-size: 1.4rem; font-weight: 400; }
+@media (max-width: 767px) { .globalNav_item.globalNav_item-sub { display: block; } }
 
 /* JS 無効時：ナビを2段目に常時表示 */
 html:not(.js) .mainHeader_frame {
@@ -459,10 +465,74 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   .headerMore_actions .primaryButton { min-height: 48px; }
 }
 
+/* SP：縦を詰める。運行状況は1行の横スクロールチップ（異常な路線を先頭へ・状態文字は異常時のみ）、
+   「さらに詳しく」は見出し・事業者向けリンクを畳んでボタン1段にする（事業者向けリンクはドロワーへ） */
 @media (max-width: 767px) {
   .mainHeader { border-radius: 0 0 8vw 8vw; }
+  .serviceStatus { padding-block: var(--sp-3); }
   .serviceStatus_title { font-size: 1.6rem; }
+  .serviceStatus_head { gap: 0 var(--sp-3); }
+  .serviceStatus_time { font-size: 1.2rem; }
+
+  .serviceStatus_list {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: var(--sp-2);
+    margin: var(--sp-2) calc(var(--gutter) * -1) 0;
+    padding-inline: var(--gutter) calc(var(--gutter) + 24px); /* 右端の余白ぶん、最後のチップは端までスクロールすると全体が見える */
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent); /* 続きがあることを右端のフェードで示す */
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  }
+  .serviceStatus_list::-webkit-scrollbar { display: none; }
+  .serviceStatus_list > .lineStatus { flex: 0 0 auto; scroll-snap-align: start; }
+  .lineStatus-suspend { order: -2; }
+  .lineStatus-warning { order: -1; }
+
+  .lineStatus {
+    position: relative; /* 下の読み上げ専用テキスト(absolute)をチップ内に留める */
+    grid-auto-flow: column;
+    align-items: center;
+    align-content: center;
+    justify-items: start;
+    gap: var(--sp-2);
+    min-height: 40px;
+    padding: 0 var(--sp-3) 0 var(--sp-2);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-pill);
+    text-align: left;
+    white-space: nowrap;
+  }
+  .lineStatus-warning,
+  .lineStatus-suspend { border-color: transparent; }
+  .lineStatus_icon { width: 20px; height: 20px; margin-bottom: 0; stroke-width: 5; }
   .lineStatus_name { font-size: 1.3rem; }
+  .lineStatus_state { font-size: 1.2rem; }
+  /* 平常運転の文字は読み上げ用に残し、見た目は記号のみ */
+  .lineStatus-normal .lineStatus_state {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .headerMore { gap: 0; padding-block: var(--sp-3); }
+  .headerMore_head {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .headerMore_sub { display: none; }
+  .headerMore_actions { gap: var(--sp-2); }
+  .headerMore_actions .primaryButton { min-height: 44px; padding-inline: var(--sp-2); font-size: 1.4rem; }
 }
 @media (min-width: 768px) and (max-width: 1279px) {
   .headerMore_actions { grid-template-columns: 1fr; }
@@ -817,13 +887,13 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 .newsList_item {
   position: relative;
   display: grid;
-  grid-template-columns: auto 9.6rem 1fr;
+  grid-template-columns: 8.4rem 9.6rem 1fr;
   align-items: baseline;
   gap: var(--sp-2) var(--sp-5);
   padding-block: var(--sp-5);
 }
 .newsList_item + .newsList_item { border-top: 1px solid var(--color-line); }
-.newsList_date { font-family: var(--font-en); font-size: 1.3rem; color: var(--color-ink-sub); line-height: 1.51; }
+.newsList_date { font-family: var(--font-en); font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 1.3rem; color: var(--color-ink-sub); line-height: 1.51; }
 .newsList_category {
   justify-self: stretch;
   text-align: center;
@@ -841,7 +911,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 .newsList_title:hover { color: var(--color-brand); text-decoration: underline; }
 @media (max-width: 767px) {
   .newsCard_head, .newsCard_panel { padding-inline: var(--sp-5); }
-  .newsList_item { grid-template-columns: auto 9.6rem; justify-content: start; }
+  .newsList_item { grid-template-columns: 8.4rem 9.6rem; justify-content: start; }
   .newsList_title { grid-column: 1 / -1; }
 }
 
@@ -946,7 +1016,8 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   padding-top: var(--sp-6);
   border-top: 1px solid var(--color-brand-light);
 }
-.mainFooter_logo { display: inline-block; }
+.mainFooter_logo { display: inline-block; order: 2; }
+.mainFooter_copy { order: 1; }
 .mainFooter_logo img { width: 72px; }
 .mainFooter_copy { font-size: 1.3rem; }
 .mainFooter_copy small { font-size: inherit; }

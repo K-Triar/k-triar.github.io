@@ -36,7 +36,7 @@
 
     // ナビ（REWIS 以外）
     const list = bar.querySelector(".compactHeader_list");
-    nav.querySelectorAll(".globalNav_item:not(.globalNav_item-rewis) .globalNav_link").forEach((link) => {
+    nav.querySelectorAll(".globalNav_item:not(.globalNav_item-rewis):not(.globalNav_item-sub) .globalNav_link").forEach((link) => {
       const item = document.createElement("li");
       const a = document.createElement("a");
       item.className = "compactHeader_item";
