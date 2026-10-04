@@ -1,9 +1,8 @@
 /* =========================================================
    Kトライア瑠璃交通 — Top page
-   DESIGN.md §3 Tokens / §4 Components / §6 Blueprint
    ========================================================= */
 
-/* ---------- Tokens (§3) ---------- */
+/* ---------- Tokens ---------- */
 :root {
   /* Brand — REWIS デザインシステムの --color-primary (#0078D7) が基準。
      #0078D7 は白地で 4.4989:1 と AA (4.5:1) にわずかに届かないため、各チャンネル 1 段だけ暗くしたもの */
@@ -105,7 +104,7 @@ main:focus { outline: none; }
 .u-pcOnly { display: none; }
 @media (min-width: 1280px) { .u-pcOnly { display: inline; } }
 
-/* ---------- Skip link (§4.1) ---------- */
+/* ---------- Skip link ---------- */
 .skipLink {
   position: absolute;
   top: var(--sp-2); left: var(--sp-2);
@@ -118,7 +117,7 @@ main:focus { outline: none; }
 }
 .skipLink:focus { transform: none; }
 
-/* ---------- Section titles (§2 二層見出し) ---------- */
+/* ---------- Section titles (二層見出し) ---------- */
 .contentsTitle_en {
   font-family: var(--font-en);
   font-size: 1.7rem;
@@ -145,13 +144,13 @@ main:focus { outline: none; }
   .contentsTitle_en { padding-top: calc((var(--title-fs) * 1.4 - 1.7rem) / 2); }
 }
 
-/* ---------- Header (§4.2 + §4.3) ----------
+/* ---------- Header ----------
    PC(1280+):  [brand | nav ................ REWIS]
                [brand | 運行状況        | さらに詳しく]
    Tablet:     [brand ............. menu]
                [運行状況        | さらに詳しく]
    SP:         [brand ............. menu] / [運行状況] / [さらに詳しく]
-   下端のみ角丸 + 影で、直下の面に「重ねる」（§3.5 署名的ディテール） */
+   下端のみ角丸 + 影で、直下の面に「重ねる」（署名的ディテール） */
 .mainHeader {
   position: relative;
   z-index: 10;
@@ -332,6 +331,8 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 }
 .lineStatus-warning { --st: var(--color-status-warning-text); background: var(--color-status-warning-bg); }
 .lineStatus-suspend { --st: var(--color-status-suspend-text); background: var(--color-status-suspend-bg); }
+/* 取得前・取得失敗。状態色は使わない */
+.lineStatus-unknown { --st: var(--color-ink-sub); }
 .lineStatus_icon {
   width: 40px;
   height: 40px;
@@ -367,7 +368,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 }
 .headerMore_actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
 
-/* Primary button（§4.8） */
+/* Primary button */
 .primaryButton {
   display: inline-flex;
   align-items: center;
@@ -459,7 +460,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   .serviceStatus_list { flex-wrap: nowrap; gap: var(--sp-1); }
   .serviceStatus_list > .lineStatus { flex: 1 1 0; min-width: 0; }
   /* 見出し行は運行状況の見出しと、ボタン下端は路線タイルの下端と揃える。
-     ボタンは縦積み・高さ 48px（§4.8）にして、見出し行 + ボタン2つで路線タイルの高さにちょうど収める */
+     ボタンは縦積み・高さ 48px にして、見出し行 + ボタン2つで路線タイルの高さにちょうど収める */
   .headerMore { justify-content: flex-start; padding: var(--sp-5) 0 var(--sp-5) var(--sp-5); }
   .headerMore_actions { grid-template-columns: 1fr; gap: var(--sp-2); margin-top: auto; }
   .headerMore_actions .primaryButton { min-height: 48px; }
@@ -639,6 +640,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 .compactStatus:hover { border-color: var(--color-brand); }
 .compactStatus-warning { --st: var(--color-status-warning-text); background: var(--color-status-warning-bg); border-color: transparent; }
 .compactStatus-suspend { --st: var(--color-status-suspend-text); background: var(--color-status-suspend-bg); border-color: transparent; }
+.compactStatus-unknown { --st: var(--color-ink-sub); }
 .compactStatus_icon {
   width: 20px;
   height: 20px;
@@ -662,22 +664,31 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   .compactHeader_menuButton { display: none; }
 }
 
-/* ---------- Main Visual (§4.5) ---------- */
+/* ---------- Main Visual ---------- */
 /* ヘッダーの角丸の下へ画像を潜らせる */
 .mainVisual { background: var(--color-white); margin-top: calc(var(--radius-xl) * -1); }
 @media (max-width: 767px) { .mainVisual { margin-top: -8vw; } }
 .mainVisual_viewport { display: grid; }
+/* クロスフェード: 新しいスライドを前面でゆっくり濃くし、前のスライドはその間そのまま残して後から消す
+   （同時に薄くすると中間で下地の白が透けて、一瞬暗く／白っぽくなるため） */
 .mainVisual_slide {
+  --fade: 1.4s;
   grid-area: 1 / 1;
+  background: var(--color-white);
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--dur) var(--ease-out), visibility 0s linear var(--dur);
+  transition: opacity 0s linear var(--fade), visibility 0s linear var(--fade);
 }
 .mainVisual_slide.is-active {
+  position: relative;
+  z-index: 1;
   opacity: 1;
   visibility: visible;
-  transition: opacity var(--dur) var(--ease-out), visibility 0s;
+  transition: opacity var(--fade) cubic-bezier(.4, 0, .2, 1), visibility 0s;
 }
+/* キャプションは重なって読みにくくならないよう、画像の切り替えとは別に前後にずらしてフェード */
+.mainVisual_caption { opacity: 0; transition: opacity .5s ease; }
+.is-active > .mainVisual_caption { opacity: 1; transition: opacity .8s ease .6s; }
 .mainVisual_image {
   width: 100%;
   aspect-ratio: 1897 / 628;
@@ -708,6 +719,8 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   justify-content: flex-end;
   gap: var(--sp-4);
   padding-block: var(--sp-2) var(--sp-5);
+  position: relative;
+  z-index: 2; /* 前面に出したスライド（z-index: 1）の下に隠れないように */
 }
 .mainVisual_controls[hidden] { display: none; }
 /* 768px 以上は、キャプションと同じ行の右端にコントロールを置く（JS 有効時のみ。無効時はコントロールが無い） */
@@ -767,7 +780,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 .mainVisual_toggle[aria-pressed="true"] .mainVisual_toggleIcon-pause { display: none; }
 .mainVisual_toggle[aria-pressed="true"] .mainVisual_toggleIcon-play { display: block; }
 
-/* ---------- Section surfaces (§3.5 / §5 めくり構造) ---------- */
+/* ---------- Section surfaces (めくり構造) ---------- */
 .section {
   position: relative;
   padding-block: var(--sp-9);
@@ -796,7 +809,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
   .section + .section { margin-top: -8vw; padding-top: calc(var(--sp-8) + 8vw); }
 }
 
-/* ---------- Concept (§4.6) ---------- */
+/* ---------- Concept ---------- */
 .conceptSection_lead { margin-top: var(--sp-5); max-width: 40em; }
 .conceptSection_business { margin-top: var(--sp-8); }
 /* 3枚は 1列 → 3列の2段階（2列にすると最後の1枚が孤立する） */
@@ -840,7 +853,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 .businessCard_text { margin-top: var(--sp-3); flex: 1 1 auto; } /* 本文の行数が違っても「詳しく見る」を下端でそろえる */
 .businessCard_link { margin-top: var(--sp-3); align-self: flex-start; }
 
-/* ---------- News (§4.7) ---------- */
+/* ---------- News ---------- */
 .newsSection_head {
   padding-bottom: var(--sp-6);
   border-bottom: 1px solid var(--color-brand-light);
@@ -911,7 +924,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 .newsList_title:hover { color: var(--color-brand); text-decoration: underline; }
 @media (max-width: 767px) {
   .newsCard_head, .newsCard_panel { padding-inline: var(--sp-5); }
-  .newsList_item { grid-template-columns: 8.4rem 9.6rem; justify-content: start; }
+  .newsList_item { grid-template-columns: 8.4rem 9.6rem 1fr; }
   .newsList_title { grid-column: 1 / -1; }
 }
 
@@ -947,7 +960,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 .socialBand_icon { width: 24px; height: 24px; fill: currentColor; }
 @media (max-width: 767px) { .socialBand { padding-inline: var(--sp-5); } }
 
-/* ---------- Efforts (§6-6) ---------- */
+/* ---------- Efforts ---------- */
 .effortCards {
   display: grid;
   grid-template-columns: 1fr;
@@ -976,7 +989,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 .effortCard_title { margin-top: var(--sp-3); font-size: clamp(1.8rem, 1vw + 1.2rem, 2.2rem); font-weight: 700; line-height: 1.4; }
 .effortCard_text { margin-top: var(--sp-3); }
 
-/* ---------- Footer (§4.10) ---------- */
+/* ---------- Footer ---------- */
 .mainFooter {
   position: relative;
   z-index: 1;
@@ -1173,7 +1186,7 @@ html:not(.js) .globalNav_link { min-height: 44px; border-bottom: 0; }
 .newsArticle_title { font-size: 1.7rem; font-weight: 700; line-height: 1.4; margin-top: var(--sp-2); }
 .newsArticle_lead { margin-top: var(--sp-2); font-size: 1.5rem; line-height: 1.7; }
 
-/* ---------- Reduced motion (§3.6) ---------- */
+/* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

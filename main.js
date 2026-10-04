@@ -1,6 +1,6 @@
 /* Kトライア瑠璃交通 — 全ページ共通（ヘッダー固定・メニュー開閉）
    JS なしでも全情報が読める前提の、最小限の拡張のみ。Top page 専用の処理は home.js。 */
-(() => {
+( => {
   "use strict";
 
   const header = document.querySelector(".mainHeader");
@@ -52,28 +52,35 @@
     const rewisLink = bar.querySelector(".compactHeader_rewis");
     if (rewis) {
       rewisLink.href = rewis.getAttribute("href");
-      rewisLink.append(rewis.querySelector("img").cloneNode());
-    } else rewisLink.remove();
+      rewisLink.append(rewis.querySelector("img").cloneNode);
+    } else rewisLink.remove;
 
     const cta = header.querySelector(".headerMore_actions .primaryButton");
     const ctaLink = bar.querySelector(".compactHeader_cta");
     if (cta) {
       ctaLink.href = cta.getAttribute("href");
       ctaLink.textContent = cta.textContent;
-    } else ctaLink.remove();
+    } else ctaLink.remove;
 
-    // 運行状況サマリ：最も重い状態の記号で代表し、異常のある路線数を文字で示す
-    const lines = [...header.querySelectorAll(".lineStatus")];
-    const count = (state) => lines.filter((line) => line.classList.contains(`lineStatus-${state}`)).length;
-    // 状態名・表記は REWIS（src/pages/index.js の STATE_LABELS）と共通
-    const suspend = count("suspend");
-    const warning = count("warning");
-    const worst = suspend ? "suspend" : warning ? "warning" : "normal";
-    const parts = [suspend && `運転見合わせ ${suspend}路線`, warning && `運行情報あり ${warning}路線`].filter(Boolean);
+    // 運行状況サマリ：最も重い状態の記号で代表し、異常のある路線数を文字で示す。
+    // 路線の状態は status.js が取得後に書き換えるので、"statusupdate" のたびに作り直す
     const status = bar.querySelector(".compactStatus");
-    status.classList.add(`compactStatus-${worst}`);
-    status.querySelector("use").setAttribute("href", `#st-${worst}`);
-    status.querySelector(".compactStatus_text").textContent = parts.length ? parts.join("・") : "全線 平常運転";
+    const updateStatus = => {
+      const lines = [...header.querySelectorAll(".lineStatus")];
+      const count = (state) => lines.filter((line) => line.classList.contains(`lineStatus-${state}`)).length;
+      // 状態名・表記は REWIS（src/pages/index.js の STATE_LABELS）と共通
+      const suspend = count("suspend");
+      const warning = count("warning");
+      const unknown = count("unknown");
+      const worst = suspend ? "suspend" : warning ? "warning" : unknown ? "unknown" : "normal";
+      const parts = [suspend && `運転見合わせ ${suspend}路線`, warning && `運行情報あり ${warning}路線`].filter(Boolean);
+      status.className = `compactStatus compactStatus-${worst}`;
+      status.querySelector("use").setAttribute("href", `#st-${worst}`);
+      status.querySelector(".compactStatus_text").textContent =
+        parts.length ? parts.join("・") : unknown ? "運行状況" : "全線 平常運転";
+    };
+    updateStatus;
+    header.querySelector(".serviceStatus")?.addEventListener("statusupdate", updateStatus);
 
     header.after(bar);
 
@@ -89,7 +96,7 @@
     }).observe(header);
   }
 
-  /* ---------- Global nav drawer (§4.2) ----------
+  /* ---------- Global nav drawer ----------
      Top page の開閉ボタンは本来のヘッダーと固定ヘッダーの2つ。開いている間は本来のボタンが「閉じる」として最前面に出る。
      下層ページは固定ヘッダーのボタン1つで、開いている間はそのボタンが最前面に出る。 */
   if (menuButton && nav) {
@@ -103,7 +110,7 @@
       nav.classList.toggle("is-open", open);
       label.textContent = open ? "閉じる" : "メニュー";
     };
-    const close = () => {
+    const close = => {
       setOpen(false);
       opener.focus({ preventScroll: true });
     };
@@ -112,7 +119,7 @@
       const button = e.target.closest('[aria-controls="globalNav"]');
       if (!button) return;
       if (nav.classList.contains("is-open")) {
-        close();
+        close;
       } else {
         opener = button;
         setOpen(true);
@@ -123,7 +130,7 @@
       if (e.target.closest("a")) setOpen(false);
     });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && nav.classList.contains("is-open")) close();
+      if (e.key === "Escape" && nav.classList.contains("is-open")) close;
     });
   }
-})();
+});

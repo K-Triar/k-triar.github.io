@@ -1,11 +1,11 @@
 /* Kトライア瑠璃交通 — Top page 専用
    メインビジュアルのスライダーとニュースタブ。ヘッダー・メニューなど全ページ共通の処理は main.js。 */
-(() => {
+( => {
   "use strict";
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  /* ---------- Main visual slider (§4.5) ---------- */
+  /* ---------- Main visual slider ---------- */
   const mainVisual = document.querySelector(".mainVisual");
 
   if (mainVisual) {
@@ -29,37 +29,37 @@
       });
     };
 
-    const sync = () => {
+    const sync = => {
       clearInterval(timer);
       timer = null;
-      if (!userPaused && !hoverPaused) timer = setInterval(() => show(current + 1), INTERVAL);
+      if (!userPaused && !hoverPaused) timer = setInterval( => show(current + 1), INTERVAL);
       toggle.setAttribute("aria-pressed", String(userPaused));
       toggleLabel.textContent = userPaused ? "再生" : "一時停止";
     };
 
     controls.hidden = false;
-    dots.forEach((dot, i) => dot.addEventListener("click", () => show(i)));
-    toggle.addEventListener("click", () => {
+    dots.forEach((dot, i) => dot.addEventListener("click", => show(i)));
+    toggle.addEventListener("click", => {
       userPaused = !userPaused;
-      sync();
+      sync;
     });
 
     // 操作中・注視中は送らない
-    mainVisual.addEventListener("mouseenter", () => { hoverPaused = true; sync(); });
-    mainVisual.addEventListener("mouseleave", () => { hoverPaused = false; sync(); });
-    mainVisual.addEventListener("focusin", () => { hoverPaused = true; sync(); });
+    mainVisual.addEventListener("mouseenter", => { hoverPaused = true; sync; });
+    mainVisual.addEventListener("mouseleave", => { hoverPaused = false; sync; });
+    mainVisual.addEventListener("focusin", => { hoverPaused = true; sync; });
     mainVisual.addEventListener("focusout", (e) => {
-      if (!mainVisual.contains(e.relatedTarget)) { hoverPaused = false; sync(); }
+      if (!mainVisual.contains(e.relatedTarget)) { hoverPaused = false; sync; }
     });
     reducedMotion.addEventListener("change", (e) => {
-      if (e.matches) { userPaused = true; sync(); }
+      if (e.matches) { userPaused = true; sync; }
     });
 
     show(0);
-    sync();
+    sync;
   }
 
-  /* ---------- News tabs (§4.7) ---------- */
+  /* ---------- News tabs ---------- */
   const tablist = document.querySelector(".newsTabs");
 
   if (tablist) {
@@ -73,19 +73,19 @@
         tab.tabIndex = selected ? 0 : -1;
         panels[i].hidden = !selected;
       });
-      if (focus) tabs[index].focus();
+      if (focus) tabs[index].focus;
     };
 
     tablist.hidden = false;
     tabs.forEach((tab, i) => {
-      tab.addEventListener("click", () => select(i, false));
+      tab.addEventListener("click", => select(i, false));
       tab.addEventListener("keydown", (e) => {
         const keys = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 };
         if (!(e.key in keys)) return;
-        e.preventDefault();
+        e.preventDefault;
         select((keys[e.key] + tabs.length) % tabs.length, true);
       });
     });
     select(0, false);
   }
-})();
+});
