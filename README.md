@@ -72,6 +72,9 @@ Kトライア瑠璃交通の企業情報・事業紹介・ニュースを掲載�
 ├── assets/
 │   ├── icons/            # Kトライア瑠璃・REWIS・TC Builder のロゴ
 │   └── img/              # メインビジュアル画像
+├── robots.txt            # クローラー向け設定（ドメイン全体に効くため REWIS の分も兼ねる）
+├── sitemap.xml           # 本サイトと REWIS 公開ページの一覧（Search Console に送信）
+├── google*.html          # Google Search Console の所有権確認用（削除しない）
 └── LICENSE
 ```
 
