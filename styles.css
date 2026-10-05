@@ -5,10 +5,10 @@
 /* ---------- Tokens ---------- */
 :root {
   /* Brand — REWIS デザインシステムの --color-primary (#0078D7) が基準。
-     #0078D7 は白地で 4.4989:1 と AA (4.5:1) にわずかに届かないため、各チャンネル 1 段だけ暗くしたもの */
-  --color-brand:        #0077D6; /* 白地 4.56:1 / 白文字 4.56:1 */
-  --color-brand-light:  #66ADE6; /* brand 60% + white。青面上の区切り線専用（文字には使わない） */
-  --color-brand-tint:   #B3D5F3; /* brand 30% + white。淡い青の面 */
+     色相（約 207°）・彩度を保ったまま明度のみ下げ、白との対比が WCAG 2.2 AAA (7:1) に届く最も明るい値 */
+  --color-brand:        #005AA3; /* 白地 7.02:1 / 白文字 7.02:1 */
+  --color-brand-light:  #669CC8; /* brand 60% + white。青面上の区切り線専用（文字には使わない） */
+  --color-brand-tint:   #B3CEE3; /* brand 30% + white。淡い青の面 */
 
   /* Neutral */
   --color-white:        #FFFFFF;
